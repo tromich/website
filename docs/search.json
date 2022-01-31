@@ -1,0 +1,27 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-31T15:19:02-08:00"
+    },
+    {
+      "path": "blog.html",
+      "title": "Blog",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-31T15:19:02-08:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Trevor Romich",
+      "author": [],
+      "contents": "\r\n\r\n          \r\n          \r\n          website\r\n          \r\n          \r\n          Home\r\n          About\r\n          Blog\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            Trevor Romich\r\n          \r\n          \r\n            \r\n              I am a Ph.D. student researching the impact of drought on conifer needle shedding, and the relationship this has with climate.\r\n            \r\n            \r\n              I am a Ph.D. student researching the impact of drought on conifer needle shedding, and the relationship this has with climate.\r\n            \r\n          \r\n\r\n          \r\n            \r\n              \r\n                  \r\n                    \r\n                      GitHub\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      Email\r\n                    \r\n                  \r\n                \r\n                              \r\n          \r\n\r\n          \r\n            \r\n              \r\n                                \r\n                  \r\n                    GitHub\r\n                  \r\n                \r\n                                \r\n                  \r\n                    Email\r\n                  \r\n                \r\n                              \r\n            \r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    ",
+      "last_modified": "2022-01-31T15:19:02-08:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}

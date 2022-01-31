@@ -1,0 +1,22 @@
+---
+title: "welcome"
+description: |
+  Welcome to my website! It is still under development. Thank you for visiting!
+author:
+  - name: Trevor Romich
+date: 2022-01-31
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+

@@ -1,0 +1,19 @@
+[
+  {
+    "path": "posts/2022-01-31-welcome/",
+    "title": "welcome",
+    "description": "Welcome to my website! It is still under development. Thank you for visiting!",
+    "author": [
+      {
+        "name": "Trevor Romich",
+        "url": {}
+      }
+    ],
+    "date": "2022-01-31",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-01-31T15:17:00-08:00",
+    "input_file": {}
+  }
+]

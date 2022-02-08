@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2022-02-07-update/",
+    "title": "Update 2/7/2022",
+    "description": "I'm in the process of building this website. It's a lot harder to find online help related to this process than I thought it would be - in particular, I am struggling to find anything related to how to add or manipulate images on webpages designed in Rstudio. As a result, the main page image is still sideways. I've updated the 'about' page with some more detailed information about me - it will likely turn into a CV/resume eventually, but may be split into two pages at that point. I think it would be cool to add some photos I've taken in Death Valley to a page by themselves.",
+    "author": [
+      {
+        "name": "Trevor Romich",
+        "url": {}
+      }
+    ],
+    "date": "2022-02-07",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-02-07T16:44:41-08:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2022-01-31-welcome/",
     "title": "welcome",
     "description": "Welcome to my website! It is still under development. Thank you for visiting!",

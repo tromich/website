@@ -1,0 +1,12 @@
+---
+site: distill::distill_a
+title: "Death Valley Photos"
+description: |
+  Photos I've taken from Death Valley. Currently under construction!
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+

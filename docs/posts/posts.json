@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2022-02-22-2142022/",
+    "title": "2/14/2022",
+    "description": "I've fixed some issues with the site that may or may not have ever been present on the online version. There are still some errors with displaying the projects, but should be fixed soon.",
+    "author": [
+      {
+        "name": "Trevor Romich",
+        "url": {}
+      }
+    ],
+    "date": "2022-02-22",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-02-22T16:55:30-08:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2022-02-07-update/",
     "title": "Update 2/7/2022",
     "description": "I'm in the process of building this website. It's a lot harder to find online help related to this process than I thought it would be - in particular, I am struggling to find anything related to how to add or manipulate images on webpages designed in Rstudio. As a result, the main page image is still sideways. I've updated the 'about' page with some more detailed information about me - it will likely turn into a CV/resume eventually, but may be split into two pages at that point. I think it would be cool to add some photos I've taken in Death Valley to a page by themselves.",

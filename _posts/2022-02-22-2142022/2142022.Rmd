@@ -1,0 +1,21 @@
+---
+title: "2/14/2022"
+description: |
+  I've fixed some issues with the site that may or may not have ever been present on the online version. There are still some errors with displaying the projects, but should be fixed soon.
+author:
+  - name: Trevor Romich
+    url: {}
+date: 2022-02-22
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+

@@ -13,4 +13,4 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 BuildType: Website
-WebsitePath: docs
+WebsitePath: C:/ucsb/w22/esm244/website

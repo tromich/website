@@ -1,7 +1,15 @@
 ---
 title: "Portfolio"
 description: |
-  test
+  A list of projects I have completed. [Currently this uses projects from class as I am unsure if I will continue using the website]
+  
+  Project #1: a
+  
+  Project #2: b
+  
+  Project #3: c
+    
+  Project #4: d
 
 ---
 

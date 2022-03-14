@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2022-03-14-update-3142022/",
+    "title": "Update 3/14/2022",
+    "description": "I've fixed the resume display issue by replacing the insert frame with a list of my most recent positions, and added a fourth project to the list.",
+    "author": [
+      {
+        "name": "Trevor Romich",
+        "url": {}
+      }
+    ],
+    "date": "2022-03-14",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-03-14T16:45:46-07:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2022-03-13-update-31322/",
     "title": "Update 3/13/22",
     "description": "I've made substantial updates to the website. A pdf of my resume is now available, and the project portfolio page contains links to three data manipulation and analysis projects I've done for coursework. A fourth one will be added tomorrow. Some photos will be added to the Death Valley Photos page tomorrow as well, if time permits.",

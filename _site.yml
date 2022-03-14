@@ -11,6 +11,16 @@ navbar:
       href: about.html
     - text: "Project Portfolio"
       href: portfolio.html
+    - text: "Project Quick Links"
+      menu: 
+      - text: "Oxygen Saturation Model Selection"
+        href: project1.html
+      - text: "Textual analysis - Thoreau Society bulletin"
+        href: project2.html
+      - text: "Nonlinear Models: Lizard Traits"
+        href: project3.html
+      - text: "Visualization of Fish Ladder Observation Data"
+        href: project4.html
     - text: "Resume"
       href: Resume.html
     - text: "Blog"

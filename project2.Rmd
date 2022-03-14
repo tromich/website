@@ -94,7 +94,7 @@ wordcloud_aggregate+plot_annotation(caption=str_c("Figure 2: Word cloud for the 
 
 Unsurprisingly, "thoreau" is the most commonly used word in the entire document, and "walden" (a famous place in Thoreau's life) is also extremely common. However we also see some odd words appearing quite frequently. I had to look in the PDF myself to figure out what "st" and "coll" meant; apparently they are abbreviations for "state college" and are used extensively in the membership list, since it is by state. "univ" likewise occurs often in this section. We should see this reflected in a difference in usage count by page, which is presented below.
 
-```{r word count by page,warning=FALSE}
+```{r wordcountbypage,warning=FALSE}
 #easily get a data frame with just the pages by using count
 pages = count(wordct_bypage,page)
 
@@ -102,7 +102,7 @@ pages = count(wordct_bypage,page)
 #get total words on each page
 tw_bypage = summarise(group_by(wordct_bypage,page),totalwords=sum(n))
 colnames(tw_bypage)=c("Page #", "Total Words")
-kable(tw_bypage,caption="Table 1: Word count by page")
+kable(tw_bypage,caption="Word count by page")
 ```
 
 As can be seen in the table above, the total word count per page increases noticeably on pages 4-7, before declining again on page 8. This will be relevant later.

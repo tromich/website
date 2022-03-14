@@ -7,7 +7,7 @@ title: "My resume"
 <hr></hr>
 
 <h3>Current Position</h3>
-<h4>University of California, Santa Barbara, 2017-Present</h4>
+<h4>University of California, Santa Barbara, September 2017-Present</h4>
 <p>I am a graduate student in the Geography Department. I completed my Masters degree in March 2020, and produced the thesis “Photodegradation stimulates microbial activity through enhanced water solubility of grass litter carbon.” Currently I am in the process of developing a Ph.D. project to investigate the impact of changes in moisture availability on drought-induced conifer needle shedding. Additionally, I work as a Teacher's Assistant during the normal academic year.</p>
 <hr></hr>
 <h3>Recent prior experience</h3>

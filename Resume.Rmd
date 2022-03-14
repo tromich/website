@@ -2,4 +2,4 @@
 title: "My resume"
 ---
 
-<a href = "Trevor Romich Resume 3_13_2022.pdf" target = "_blank">&nbsp;this link&nbsp;</a>
+<a href = "TrevorRomichResume3_13_2022.pdf" target = "_blank">Click this link to download a copy of my resume</a>

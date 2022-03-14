@@ -13,7 +13,7 @@
       "title": "Blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-13T23:48:55-07:00"
+      "last_modified": "2022-03-13T23:55:04-07:00"
     },
     {
       "path": "index.html",
@@ -62,8 +62,8 @@
       "path": "Resume.html",
       "title": "My resume",
       "author": [],
-      "contents": "\r\n\r\n\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-03-13T23:49:18-07:00"
+      "contents": "\r\n\r\n\r\n.a { display : flex }\r\n\r\n\r\n\r\n\r\nIf the viewer below is not working, click\r\n\r\n this link \r\n\r\nto download a copy of my current resume\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-03-14T00:19:22-07:00"
     }
   ],
   "collections": ["posts/posts.json"]

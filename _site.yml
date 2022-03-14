@@ -12,7 +12,7 @@ navbar:
     - text: "Project Portfolio"
       href: portfolio.html
     - text: "Resume"
-      href: resume.html
+      href: Resume.html
     - text: "Blog"
       href: blog.html
     - text: "Death Valley Photos"

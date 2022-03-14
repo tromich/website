@@ -7,10 +7,8 @@ title: "My resume"
 ```
 
 <div class = "a">
-<p>If the viewer below is not working, click</p>
+<p>Click</p>
 <a href = "Trevor Romich Resume 3_13_2022.pdf" target = "_blank">&nbsp;this link&nbsp;</a>
 <p>to download a copy of my current resume.</p>
 </div>
 <br></br>
-
-<iframe src="Trevor Romich Resume 3_13_2022.pdf" type="application/pdf" width="100%" height="600px"></iframe>

@@ -9,11 +9,12 @@ navbar:
       href: index.html
     - text: "About Me"
       href: about.html
-    - text: "Project 1"
+    - text: "Project Portfolio"
       href: portfolio.html
+    - text: "Resume"
+      href: resume.html
     - text: "Blog"
       href: blog.html
     - text: "Death Valley Photos"
       href: photos.html
-
 output: distill::distill_article

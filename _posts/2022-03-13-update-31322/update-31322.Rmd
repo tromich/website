@@ -1,0 +1,20 @@
+---
+title: "Update 3/13/22"
+description: |
+  I've made substantial updates to the website. A pdf of my resume is now available, and the project portfolio page contains links to three data manipulation and analysis projects I've done for coursework. A fourth one will be added tomorrow. Some photos will be added to the Death Valley Photos page tomorrow as well, if time permits.
+author:
+  - name: Trevor Romich
+    url: {}
+date: 2022-03-13
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+

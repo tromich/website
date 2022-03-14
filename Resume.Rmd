@@ -1,0 +1,8 @@
+---
+title: "My resume"
+output:
+  distill::distill_article
+---
+
+
+<iframe src="Trevor Romich Resume 3_13_2022.pdf" type="application/pdf" width="100%" height="600px"></iframe>

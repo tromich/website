@@ -1,0 +1,130 @@
+---
+title: "Nonlinear modeling of lizard physiological data"
+output:
+    distill::distill_article:
+      code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load libraries,warning=FALSE,message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+library(knitr)
+library(broom)
+```
+
+Objective:
+
+Using the data from Lightfoot, D. and W.G. Whitford. 2020. Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006 ver 37. Environmental Data Initiative. https://doi.org/10.6073/pasta/4a6e258fb49c31e222ecbbcfd128967f
+
+Data is measurement of weight and snout to vent length for various lizard species, divided by sex.
+
+We will fit a model of weight as a function of snout to vent length of the form w = a*svl^b
+
+```{r load data}
+t2data = read.csv("lizard.csv")
+
+```
+
+
+First, let's visualize the data by plotting weight against snouht to vent length, since we ultimately will be creating a function that does that.
+
+```{r visualize data}
+plot1 = ggplot(data=t2data,mapping=aes(x=SV_length,y=weight))+geom_point()+theme_classic()+labs(x="Snout to vent length (mm)",y="Weight (g)")
+#don't adjust axis, easier to see what's going on at weights near zero if they are away from x axis
+plot1+plot_annotation(caption="Weight in grams vs snout-vent length in mm, for all sampled lizards.\nData from Lightfoot, D. and W.G. Whitford. 2020. Lizard pitfall trap data from 11\nNPP study locations at the Jornada Basin LTER site, 1989-2006 ver 37.\nEnvironmental Data Initiative. \nhttps://doi.org/10.6073/pasta/4a6e258fb49c31e222ecbbcfd128967f")
+```
+
+The curve to the data is not super sharp, as a rough initial guess I would expect b to be between 1 and 2.
+
+But let's get better estimates for the parameters!
+
+First we log transform the data, and then fit a linear regression to the result.
+
+```{r parameter estimation}
+#log transform the data and add as new columns
+t2data = mutate(t2data,log_wt = log(weight,base=10))
+t2data = mutate(t2data,log_svl = log(SV_length,base=10))
+
+#fit linear regression for log data
+ml= lm(log_wt~log_svl,data=t2data)
+summary(ml)
+
+
+```
+We will use the coefficients from this linear model as initial estimates for coefficients a and b, and then use those starting estimates to generate our nonlinear model using the nls function.
+
+```{r create nonlinear model}
+#set up our equation
+eqn = function(svl,a,b){
+  w=a*svl^b
+  return(w)
+}
+
+#generate the model using estimates from the linear model on the log
+nls1 = nls(weight~eqn(SV_length,a,b),data=t2data,start=list(a=(10^ml$coefficients[1]),b=ml$coefficients[2]),trace=FALSE)
+```
+
+```{r augment model 1}
+#get an additional column of the fitted model predictons
+t2data = augment(nls1,data=t2data)
+```
+
+``` {r displaymodelsummarystats}
+nls1tidy = broom::tidy(nls1)
+kable(nls1tidy,caption=c("Summary of model terms"))
+
+```
+
+Remember that the model's format is weight = a*svl^b.
+
+In reality, b is slightly higher than 2, and this is compensated by the extremely low a value.
+
+``` {r graph model output}
+#plot the fitted weight against the actual weight
+plot2 = ggplot(data = t2data,mapping=aes(x=SV_length,y=weight))+geom_point(aes(color=sex))+labs(y="Weight (g)", x = "Snout to vent length (mm)")+geom_line(data=t2data,mapping=aes(x=SV_length,y=.fitted))+theme_classic()
+plot2+plot_annotation(caption="Observed and predicted weight as a function of lizard snout to vent length.\nBlack line represents the model predictions while points represent observed data.")
+```
+This model does a pretty good job of reproducing observations. But can we do better?
+
+Next, we will make a model using a subset of the data, for Cnemidophorus tigrisatus males only. First we filter for only our desired sex and species. After that the steps are similar to what we did before. We will also want to compare the models, so we calculate the root mean square error for each model as well.
+
+```{r male Cnemidophorus tigrisatus subset}
+t2data2 = filter(t2data,sex=="M"&spp=="CNTI")
+colnames(t2data2)=c("x","spp","sex","SV_length","weight","log_wt","log_svl","Fitted General","Residuals General")
+
+ml2= lm(log_wt~log_svl,data=t2data2)
+
+
+#generate the model using estimates from the linear model on the log
+nls2 = nls(weight~eqn(SV_length,a,b),data=t2data2,start=list(a=(10^ml2$coefficients[1]),b=ml2$coefficients[2]),trace=FALSE)
+```
+
+```{r augment model 2}
+#get an additional column of the fitted model predictons
+t2data2 = augment(nls2,data=t2data2)
+colnames(t2data2)=c("x","spp","sex","SV_length","weight","log_wt","log_svl","Fitted General","Residuals General","Fitted Specific","Residuals Specific")
+```
+
+```{r get rmse for both models}
+#rmse function
+rmse = function(x,y){
+  return(sqrt(mean((x-y)^2)))
+}
+rmse_model1 = rmse(t2data2$weight,t2data2$`Fitted General`)
+rmse_model2 = rmse(t2data2$weight,t2data2$`Fitted Specific`)
+
+```
+
+```{r plot comparison of models for subset}
+#plot the fitted weight against the actual weight
+plot3 = ggplot(data = t2data2,mapping=aes(x=SV_length,y=`Fitted General`))+geom_line(aes(color="Fitted General"))+geom_line(aes(color="Fitted Specific",x=SV_length,y=`Fitted Specific`))+geom_point(aes(color="Observed",x=SV_length,y=weight))+labs(y="Model predicted weight (g)", x = "Snout to vent length (mm)")+theme_classic()
+plot3+plot_annotation(caption="Observed and predicted weights using both the general and sex/species specific models\nRMSE for Fitted General: 3.56\nRMSE for Fitted Specific: 3.35\nThe preferred model for this data is the species/sex specific model, as it has lower RMSE.\nHowever, this model was developed specific for male Cnemidophorus tigrisatus,\nand may not perform as well as the general model for females or other species.")
+```
+
+This model outperforms our general model for this subset of the data. We wouldn't necessarily expect it to do better for a different species or sex, though. One could easily automate the generation of additional models for specific combinations of species and sex by iterating the process above over each combination of sex and species.

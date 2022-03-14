@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2022-03-13-update-31322/",
+    "title": "Update 3/13/22",
+    "description": "I've made substantial updates to the website. A pdf of my resume is now available, and the project portfolio page contains links to three data manipulation and analysis projects I've done for coursework. A fourth one will be added tomorrow. Some photos will be added to the Death Valley Photos page tomorrow as well, if time permits.",
+    "author": [
+      {
+        "name": "Trevor Romich",
+        "url": {}
+      }
+    ],
+    "date": "2022-03-13",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-03-13T23:55:04-07:00",
+    "input_file": "update-31322.knit.md"
+  },
+  {
     "path": "posts/2022-02-22-2142022/",
     "title": "2/14/2022",
     "description": "I've fixed some issues with the site that may or may not have ever been present on the online version. There are still some errors with displaying the projects, but should be fixed soon.",

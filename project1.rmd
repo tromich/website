@@ -1,0 +1,207 @@
+---
+title: "Developing a model for oxygen saturation"
+output:
+  distill::distill_article:
+    code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load libraries,warning=FALSE,message=FALSE}
+library(AICcmodavg)
+library(dplyr)
+library(equatiomatic)
+library(knitr)
+```
+
+For this project, the goal was to test different linear models made using the data available at: https://calcofi.org/ccdata.html 
+
+The models I developed were as follows:
+
+1. Oxygen saturation as a function of water temperature, salinity, and phosphate concentration
+
+2. Oxygen saturation as a function of the three above factors and depth
+
+I will select the better model using AIC, then perform a ten-fold cross-validation on the two models using RMSE (root mean square error).
+
+```{r load data,message=FALSE}
+t2data = read.csv("calcofi_seawater_samples.csv")
+```
+
+First, we generate the two models.
+
+```{r generate models}
+model1 = lm(o2sat~t_deg_c+salinity+po4u_m,t2data)
+model2 = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,t2data)
+```
+
+We can obtain AIC (Akaiike's Information Criteria) and corrected AIC values for each model using the functions in AICcmodavg. These values are intended to help select the preferred model.
+
+``` {r compare using AIC}
+aictable = AIC(model1,model2)
+aicctable = data.frame(matrix(nrow=1,ncol=2))
+aicctable[1,1]=AICc(model1)
+aicctable[1,2]=AICc(model2)
+colnames(aictable)=c("Degrees of Freedom","AIC")
+rownames(aictable)=c("Model 1","Model 2")
+colnames(aicctable)=c("Model 1","Model 2")
+rownames(aicctable)="Corrected AIC"
+kable(aictable)
+kable(aicctable)
+```
+The AIC of the 2nd model is lower, and the difference is greater than two points, so it is preferred. This is true both for the regular and corrected AIC.
+
+Next, we perform the tenfold cross-validation.
+
+```{r tenfold cross validation}
+#rmse function
+rmse = function(x,y){
+  return(sqrt(mean((x-y)^2)))
+}
+
+
+#assign groups to data
+i = rep(1:10, length.out=nrow(t2data))
+set.seed(10)
+t2grdata = t2data %>%
+  mutate(group = sample(i, size=n(),replace=FALSE))
+
+#create output data frame
+rmse_output = data.frame(matrix(nrow=0,ncol=2))
+colnames(rmse_output)=c("model 1","model 2")
+
+#iterate 10 times
+for (i in 1:10){
+  train = t2grdata %>%
+    filter(group != i)
+  test = t2grdata %>%
+    filter(group == i)
+  
+  #generate each model
+  testmodel1 = lm(o2sat~t_deg_c+salinity+po4u_m,train)
+  testmodel2 = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,train)
+  
+  #predict the test data using each model
+  predict_model1 = predict(testmodel1,test)
+  predict_model2 = predict(testmodel2,test)
+  
+  #get rmse of each model
+  rmse_model1 = rmse(test$o2sat,predict_model1)
+  rmse_model2 = rmse(test$o2sat,predict_model2)
+  
+  #store these
+  rmse_output[i,1]=rmse_model1
+  rmse_output[i,2]=rmse_model2
+}
+
+tbl1 = rmse_output %>%
+  summarize(`Mean Model 1`=mean(rmse_output[,1]),`Mean Model 2` = mean(rmse_output[,2]))
+
+
+
+```
+
+Model 2 has the lower RMSE, although the difference is very small. I would ordinarily be skeptical of overfitting given this, but the AIC value for model 2 is also lower, and AIC includes an attempt to account for overfitting. So I am inclined to favor model 2.
+
+```{r finalize model}
+model_final = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,t2data)
+summary(model_final)
+extract_eq(model_final,use_coefs = TRUE)
+```
+
+Above is the equation for Model 2, our preferred model which includes all four variables.
+
+Interestingly, salinity (which I didn't exclude from either model the first time around) is not shown as having even a marginally significant impact on the prediction. So let's try another model that excludes salinity.
+
+```{r without salinity}
+#here we are simply redoing the steps we did for model 1 and 2
+
+#generate the model
+model3 = lm(o2sat~t_deg_c+po4u_m+depth_m,t2data)
+summary(model3)
+
+aictable = AIC(model1,model2,model3)
+aicctable = data.frame(matrix(nrow=1,ncol=3))
+aicctable[1,1]=AICc(model1)
+aicctable[1,2]=AICc(model2)
+aicctable[1,3]=AICc(model3)
+colnames(aictable)=c("Degrees of Freedom","AIC")
+rownames(aictable)=c("Model 1","Model 2","Model 3")
+colnames(aicctable)=c("Model 1","Model 2","Model 3")
+rownames(aicctable)="Corrected AIC"
+kable(aictable)
+kable(aicctable)
+
+```
+
+Model 3 does indeed have a lower AIC and corrected AIC than Model 2. The difference is just barely less than two points for AIC, but greater than two points for corrected AIC.
+
+```{r tenfold cross validation round 2}
+#assign groups to data
+i = rep(1:10, length.out=nrow(t2data))
+set.seed(10)
+t2grdata = t2data %>%
+  mutate(group = sample(i, size=n(),replace=FALSE))
+
+#create output data frame
+rmse_output = data.frame(matrix(nrow=0,ncol=2))
+colnames(rmse_output)=c("model 1","model 2")
+
+#iterate 10 times
+for (i in 1:10){
+  train = t2grdata %>%
+    filter(group != i)
+  test = t2grdata %>%
+    filter(group == i)
+  
+  #generate each model
+  testmodel1 = lm(o2sat~t_deg_c+salinity+po4u_m,train)
+  testmodel2 = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,train)
+  testmodel3 = lm(o2sat~t_deg_c+po4u_m+depth_m,train)
+  
+  #predict the test data using each model
+  predict_model1 = predict(testmodel1,test)
+  predict_model2 = predict(testmodel2,test)
+  predict_model3 = predict(testmodel3,test)
+  
+  #get rmse of each model
+  rmse_model1 = rmse(test$o2sat,predict_model1)
+  rmse_model2 = rmse(test$o2sat,predict_model2)
+  rmse_model3 = rmse(test$o2sat,predict_model3)
+  
+  #store these
+  rmse_output[i,1]=rmse_model1
+  rmse_output[i,2]=rmse_model2
+  rmse_output[i,3]=rmse_model3
+}
+
+tbl2 = rmse_output %>%
+  summarize(`Mean Model 1`=mean(rmse_output[,1]),`Mean Model 2` = mean(rmse_output[,2]),`Mean Model 3` = mean(rmse_output[,3]))
+kable(tbl2)
+
+
+```
+Model 3 has the lowest RMSE, but the difference is even less than the difference between Model 1 and Model 2.
+
+Let's review all the information we have:
+
+1. Model 2 includes a term, salinity, which does not have even close to a marginally significant (i.e. at 90% confidence) impact on the predicted values in the model.
+
+2. Model 3 has a lower AIC than Model 2, which excludes salinity. However the difference between the models is less than 2 points, so we cannot conclude that Model 3 is superior to Model 2 based on this.
+
+3. Model 3 has a lower corrected AIC than Model 2, and by over two points. However, corrected AIC is intended to address problems with data where the sample size is very small, smaller than our available data.
+
+4. Model 3 has a lower RMSE than Model 2, but by an extremely small amount.
+
+Overall, Models 2 and 3 seem very close in performance, with mixed results suggesting that Model 3 may be the preferred model. In this scenario, I think the best option is to prefer the model that includes fewer terms - Model 3 - especially considering that the extra term in Model 2 does not appear to have a significant impact on Model 2's predictions.
+
+Therefore, our new finalized model becomes:
+
+```{r finalize model round 2}
+model_final = lm(o2sat~t_deg_c+po4u_m+depth_m,t2data)
+summary(model_final)
+extract_eq(model_final,use_coefs = TRUE)
+```
+
+All of the terms in this model are significant to at least 95% confidence.

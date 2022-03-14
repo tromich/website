@@ -1,104 +1,14 @@
 ---
-site: distill::distill_a
-title: "Portfolio - project 1"
-date: "1/30/2022"
-output:
-      html_document:
-         code_folding: hide
+title: "Project Portfolio"
+output: 
+  distill::distill_article
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r load libraries,warning=FALSE,message=FALSE}
-library(AICcmodavg)
-library(dplyr)
-library(equatiomatic)
-```
-Project 1:
+<h1 align="center">I have worked with several different programming languages as part of research and coursework. The links below provide several recent examples of my data analysis projects.</h1>
 
-Using the data available at: https://calcofi.org/ccdata.html
+<div align="center">
+<a href = "project1.html">Oxygen Saturation Model Selection</a>
+</div>
 
-Create the following linear regression models:
-
-1. Oxygen saturation as a function of water temperature, salinity, and phosphate concentration
-
-2. Oxygen saturation as a function of the three above factors and depth
-
-Select the better model using AIC, then perform a ten-fold cross-validation on the two models using RMSE
-
-```{r load data,message=FALSE}
-t2data = read.csv("calcofi_seawater_samples.csv")
-```
-
-
-
-```{r generate models}
-model1 = lm(o2sat~t_deg_c+salinity+po4u_m,t2data)
-model2 = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,t2data)
-```
-
-``` {r compare using AIC}
-AIC(model1,model2)
-AICc(model1)
-AICc(model2)
-```
-The AIC of the 2nd model is lower, and the difference is greater than two points, so it is preferred. This is true both for the regular and corrected AIC.
-
-```{r tenfold cross validation}
-#rmse function
-rmse = function(x,y){
-  return(sqrt(mean((x-y)^2)))
-}
-
-
-#assign groups to data
-i = rep(1:10, length.out=nrow(t2data))
-set.seed(10)
-t2grdata = t2data %>%
-  mutate(group = sample(i, size=n(),replace=FALSE))
-
-#create output data frame
-rmse_output = data.frame(matrix(nrow=0,ncol=2))
-colnames(rmse_output)=c("model 1","model 2")
-
-#iterate 10 times
-for (i in 1:10){
-  train = t2grdata %>%
-    filter(group != i)
-  test = t2grdata %>%
-    filter(group == i)
-  
-  #generate each model
-  testmodel1 = lm(o2sat~t_deg_c+salinity+po4u_m,train)
-  testmodel2 = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,train)
-  
-  #predict the test data using each model
-  predict_model1 = predict(testmodel1,test)
-  predict_model2 = predict(testmodel2,test)
-  
-  #get rmse of each model
-  rmse_model1 = rmse(test$o2sat,predict_model1)
-  rmse_model2 = rmse(test$o2sat,predict_model2)
-  
-  #store these
-  rmse_output[i,1]=rmse_model1
-  rmse_output[i,2]=rmse_model2
-}
-
-rmse_output %>%
-  summarize(mean_model1=mean(rmse_output[,1]),mean_model2 = mean(rmse_output[,2]))
-
-
-
-```
-
-Model 2 has the lower RMSE, although the difference is very small. I would ordinarily be skeptical of overfitting given this, but the AIC value for model 2 is also lower, and AIC includes an attempt to account for overfitting. So I am inclined to favor model 2.
-
-```{r finalize model}
-model_final = lm(o2sat~t_deg_c+salinity+po4u_m+depth_m,t2data)
-summary(model_final)
-extract_eq(model_final,use_coefs = TRUE)
-```
-
-Interestingly, salinity (which we weren't expected to leave out of either model) is not shown as having even a marginally significant impact on the prediction.
+<div align="center"><a href = "project3.html">Nonlinear Models: Lizard Traits</a> <a href = "project4.html">Visualization of Fish Ladder Observation Data</a>
+</div>

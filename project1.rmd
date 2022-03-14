@@ -15,7 +15,8 @@ library(equatiomatic)
 library(knitr)
 ```
 
-For this project, the goal was to test different linear models made using the data available at: https://calcofi.org/ccdata.html 
+For this project, the goal was to test different linear models made using the data available at: https://calcofi.org/ccdata.html
+I downloaded this data on 1/30/2022.
 
 The models I developed were as follows:
 

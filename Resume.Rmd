@@ -1,14 +1,5 @@
 ---
 title: "My resume"
 ---
-``` {css, echo=FALSE}
-.a { display : flex }
 
-```
-
-<div class = "a">
-<p>If the viewer below is not working, click</p>
 <a href = "Trevor Romich Resume 3_13_2022.pdf" target = "_blank">&nbsp;this link&nbsp;</a>
-<p>to download a copy of my current resume.</p>
-</div>
-<br></br>

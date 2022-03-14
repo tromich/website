@@ -87,26 +87,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>website: Blog</title>
+  <title>website: Textual Analysis - Thoreau Society bulletin #122</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="website: Blog"/>
+  <meta property="og:title" content="website: Textual Analysis - Thoreau Society bulletin #122"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="website"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="website: Blog"/>
+  <meta property="twitter:title" content="website: Textual Analysis - Thoreau Society bulletin #122"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","listing"]}},"value":[{"type":"character","attributes":{},"value":["Blog"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Textual Analysis - Thoreau Society bulletin #122"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"character","attributes":{},"value":["hide"]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2049,12 +2049,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Blog","authors":[]}
+{"title":"Textual Analysis - Thoreau Society bulletin #122","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2079,219 +2079,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).on("load", function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      page_category = decodeURIComponent(page_category)
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + decodeURIComponent(window.location.hash) + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption="Blog">Blog</h1>
-<a href="posts/2022-03-13-update-31322/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">March 13, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Trevor Romich</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Update 3/13/22</h2>
-<div class="dt-tags"></div>
-<p>I've made substantial updates to the website. A pdf of my resume is now available, and the project portfolio page contains links to three data manipulation and analysis projects I've done for coursework. A fourth one will be added tomorrow. Some photos will be added to the Death Valley Photos page tomorrow as well, if time permits.</p>
-</div>
-</a>
-<a href="posts/2022-02-22-2142022/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 22, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Trevor Romich</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>2/14/2022</h2>
-<div class="dt-tags"></div>
-<p>I've fixed some issues with the site that may or may not have ever been present on the online version. There are still some errors with displaying the projects, but should be fixed soon.</p>
-</div>
-</a>
-<a href="posts/2022-02-07-update/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 7, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Trevor Romich</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Update 2/7/2022</h2>
-<div class="dt-tags"></div>
-<p>I'm in the process of building this website. It's a lot harder to find online help related to this process than I thought it would be - in particular, I am struggling to find anything related to how to add or manipulate images on webpages designed in Rstudio. As a result, the main page image is still sideways. I've updated the 'about' page with some more detailed information about me - it will likely turn into a CV/resume eventually, but may be split into two pages at that point. I think it would be cool to add some photos I've taken in Death Valley to a page by themselves.</p>
-</div>
-</a>
-<a href="posts/2022-01-31-welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 31, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Trevor Romich</div>
-</div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>welcome</h2>
-<div class="dt-tags"></div>
-<p>Welcome to my website! It is still under development. Thank you for visiting!</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Blog</h1>
+<h1>Textual Analysis - Thoreau Society bulletin #122</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2299,6 +2089,311 @@ function init_posts_list() {
 
 
 <div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/juliasilge/tidytext'>tidytext</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/EmilHvitfeldt/textdata'>textdata</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/pdftools/'>pdftools</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/lepennec/ggwordcloud'>ggwordcloud</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Objective: Textual analysis of Thoreau Society Bulletin #122.</p>
+<p>Data source: Thoreau Society Bulletin One Hundred Twenty-Two. 1973. The Thoreau Society. Accessed 03/12/2022 via the Internet Archive at <a href="https://archive.org/details/thoreausociety1973122unse/mode/2up" class="uri">https://archive.org/details/thoreausociety1973122unse/mode/2up</a></p>
+<p>This is an 8-page bulletin from the 1970s. We will analyze the bulletin for (1) word count, both total and by page and (2) sentiment, also by page and for the document as a whole.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>txt_2_analyze</span> <span class='op'>=</span> <span class='fu'><a href='https://docs.ropensci.org/pdftools/reference/pdftools.html'>pdf_text</a></span><span class='op'>(</span><span class='st'>'thoreausociety1973122unse.pdf'</span><span class='op'>)</span> <span class='co'>#load from pdf</span>
+<span class='va'>txtdf</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>txt_2_analyze</span><span class='op'>)</span>,page<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#split by page</span>
+<span class='va'>txtdf</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='va'>txtdf</span>,txt<span class='op'>=</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_split.html'>str_split</a></span><span class='op'>(</span><span class='va'>txt_2_analyze</span>,pattern<span class='op'>=</span><span class='st'>'\\n'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'>#split by line</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span><span class='va'>txt</span><span class='op'>)</span> <span class='co'>#lines are all subsets of a page, fix this [for some reason doing it without the '%&gt;%' style does not work]</span>
+<span class='va'>txtdf</span><span class='op'>$</span><span class='va'>txt</span> <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_trim.html'>str_trim</a></span><span class='op'>(</span><span class='va'>txtdf</span><span class='op'>$</span><span class='va'>txt</span><span class='op'>)</span>
+
+<span class='co'>#note that because of the format of this document (2 columns of text per page) the uploaded strings are, for the most part</span>
+<span class='co'>#fragments of two separate sentences - one from the left column and one from the right</span>
+
+
+<span class='co'>#get just the words</span>
+<span class='va'>txt_words</span> <span class='op'>=</span> <span class='va'>txtdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>word</span>,<span class='va'>txt</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>txt_2_analyze</span><span class='op'>)</span>
+
+<span class='co'>#let's do word count as well, like in lab</span>
+<span class='va'>wordct</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>txt_words</span>,<span class='va'>txt_words</span><span class='op'>$</span><span class='va'>word</span><span class='op'>)</span>,<span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#unsurprisingly we have a lot of "the," "a," "is," etc.</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>After loading the data, we get rid of relatively unimportant words such as “the,” “a,” “is,” and so on.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#Get rid of stop words</span>
+<span class='va'>txtwords_stop</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter-joins.html'>anti_join</a></span><span class='op'>(</span><span class='va'>txt_words</span>,<span class='va'>stop_words</span>,by<span class='op'>=</span><span class='st'>'word'</span><span class='op'>)</span>
+<span class='co'>#also get word count since we'll be working with it</span>
+<span class='va'>wordct_bypage</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>txtwords_stop</span>,<span class='va'>txtwords_stop</span><span class='op'>$</span><span class='va'>page</span>,<span class='va'>txtwords_stop</span><span class='op'>$</span><span class='va'>word</span><span class='op'>)</span> <span class='co'>#by page</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>wordct_bypage</span><span class='op'>)</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"page"</span>,<span class='st'>"word"</span>,<span class='st'>"n"</span><span class='op'>)</span>
+<span class='va'>wordct_total</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>txtwords_stop</span>,<span class='va'>txtwords_stop</span><span class='op'>$</span><span class='va'>word</span><span class='op'>)</span> <span class='co'>#overall</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>wordct_total</span><span class='op'>)</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"word"</span>,<span class='st'>"n"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Because of the nature of this document, we are actually left with a fair number of ‘strange’ words, which we’ll see in a moment. However, as we will also see, it’s not necessarily a bad thing that these unusual words were left in, because they are informative.</p>
+<p>After loading the data and working it into a manageable form, our first objective is to determine the most frequently used words in the entire document. This excludes “stop words” (such as “the” or “is”) that are not particularly informative about the document’s contents. We’ll display this information using both bar charts for the top 10 words and a word cloud for the top 100.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#now that we've gotten rid of pesky stop words, visualize the word count for words that matter</span>
+
+<span class='co'>#let's start with the whole document</span>
+
+<span class='co'>#get the total number of words:</span>
+<span class='va'>totalwords</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>wordct_total</span><span class='op'>$</span><span class='va'>n</span><span class='op'>)</span>
+
+<span class='co'>#get the top 10 words</span>
+<span class='va'>top10words</span> <span class='op'>=</span> <span class='va'>wordct_total</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'>#arrange by n in descending order</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='co'>#grab just the first 10 rows</span>
+
+<span class='co'>#plot this</span>
+<span class='va'>top10_aggregate</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>top10words</span>,mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>n</span>,y<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>word</span>,<span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='st'>"Word"</span>,x<span class='op'>=</span><span class='st'>"Number of uses"</span><span class='op'>)</span>
+<span class='va'>top10_aggregate</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Figure 1: Usage frequency for the 10 most commonly used words in the entire document ("</span>,<span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>totalwords</span><span class='op'>)</span>,<span class='st'>" words in total),\nThoreau Society Bulletin #122. Data (c) 1973, The Thoreau Society."</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/visualize%20word%20counts%20-%20whole%20document-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#now let's make a word cloud for the whole document</span>
+<span class='va'>top100words_aggregate</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>wordct_total</span>,<span class='op'>-</span><span class='va'>n</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>wordcloud_aggregate</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>top100words_aggregate</span>,<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>label<span class='op'>=</span><span class='va'>word</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://lepennec.github.io/ggwordcloud/reference/geom_text_wordcloud.html'>geom_text_wordcloud</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color<span class='op'>=</span><span class='va'>n</span>,size<span class='op'>=</span><span class='va'>n</span><span class='op'>)</span>,shape<span class='op'>=</span><span class='st'>"circle"</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_size.html'>scale_size_area</a></span><span class='op'>(</span>max_size<span class='op'>=</span><span class='fl'>12</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_gradient.html'>scale_color_gradientn</a></span><span class='op'>(</span>colors<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#D8D8D8"</span>,<span class='st'>"#000000"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#make the words become more visible the more common they are, but lowest visibility should still be dark enough to read</span>
+<span class='va'>wordcloud_aggregate</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Figure 2: Word cloud for the most commonly used words in the entire document ("</span>,<span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>totalwords</span><span class='op'>)</span>,<span class='st'>" words in total),\nThoreau Society Bulletin #122. Larger and darker text indicates more commonly used words.\nData (c) 1973, The Thoreau Society."</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/visualize%20whole%20document%20word%20cloud-1.png" width="624" /></p>
+</div>
+<p>Unsurprisingly, “thoreau” is the most commonly used word in the entire document, and “walden” (a famous place in Thoreau’s life) is also extremely common. However we also see some odd words appearing quite frequently. I had to look in the PDF myself to figure out what “st” and “coll” meant; apparently they are abbreviations for “state college” and are used extensively in the membership list, since it is by state. “univ” likewise occurs often in this section. We should see this reflected in a difference in usage count by page, which is presented below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#easily get a data frame with just the pages by using count</span>
+<span class='va'>pages</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>wordct_bypage</span>,<span class='va'>page</span><span class='op'>)</span>
+
+
+<span class='co'>#get total words on each page</span>
+<span class='va'>tw_bypage</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>wordct_bypage</span>,<span class='va'>page</span><span class='op'>)</span>,totalwords<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>tw_bypage</span><span class='op'>)</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Page #"</span>, <span class='st'>"Total Words"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>tw_bypage</span>,caption<span class='op'>=</span><span class='st'>"Table 1: Word count by page"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<table>
+<caption>(#tab:word count by page)Table 1: Word count by page</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Page #</th>
+<th style="text-align: right;">Total Words</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">438</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">455</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">649</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">714</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">794</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">818</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">818</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">516</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>As can be seen in the table above, the total word count per page increases noticeably on pages 4-7, before declining again on page 8. This will be relevant later.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>top10s</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>t10g</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'>#for every page</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>pages</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>current_page</span><span class='op'>=</span><span class='va'>pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+  
+  <span class='co'>#get the top 10 words</span>
+  <span class='va'>top10_bypage</span> <span class='op'>=</span> <span class='va'>wordct_bypage</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>page</span><span class='op'>==</span><span class='va'>current_page</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'>#only for the current page</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'>#arrange by n in descending order</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='co'>#grab just the first 10 rows</span>
+  
+  <span class='va'>top10s</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>=</span><span class='va'>top10_bypage</span> <span class='co'>#store it</span>
+  
+  <span class='co'>#make our graph</span>
+  <span class='va'>top10_bpgraph</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>top10_bypage</span>,mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>n</span>,y<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>word</span>,<span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='st'>"Word"</span>,x<span class='op'>=</span><span class='st'>"Number of uses"</span>,title<span class='op'>=</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Page "</span>,<span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>t10g</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>=</span> <span class='va'>top10_bpgraph</span> <span class='co'>#double brackets appear to be needed to make it store the entire graph rather than just the data used to produce it</span>
+<span class='op'>}</span>
+
+<span class='op'>(</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 3: Top 10 words by page, for pages 1-4 in the document, Thoreau Society Bulletin #122.\nData (c) 1973, The Thoreau Society. "</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/word%20count%20by%20page%20continued-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>6</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>t10g</span><span class='op'>[[</span><span class='fl'>8</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 4: Top 10 words by page, for pages 5-8 in the document, Thoreau Society Bulletin #122.\nData (c) 1973, The Thoreau Society."</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/second%20set%20of%20plots-1.png" width="624" /></p>
+</div>
+<p>From examining these two sets of plots, we can see the document’s shift in focus to the membership list occurs on pages 4-7, where “st,” “coll,” and “univ” become relatively common at the expense of “thoreau” and “walden.”</p>
+<p>Next, we perform sentiment analysis on the entire document. For this we use the nrc lexicon. Mohammad, Saif M. and Turney, Peter D. (2013), Crowdsourcing a Word-Emotion Association Lexicon. Computational Intelligence, 29(3): 436-465. doi: 10.1111/j.1467-8640.2012.00460.x</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#attach the sentiment values for each word</span>
+<span class='va'>words_nrcsentiment</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>txtwords_stop</span>,<span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/get_sentiments.html'>get_sentiments</a></span><span class='op'>(</span><span class='st'>"nrc"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#from viewing this after running it, I immediately notice an issue with the sentiment analysis: the word "vice" has 'negative' sentiment, even though in this document it is a component of the two-word title "vice president." It only appears once so it shouldn't impact the results much</span>
+
+<span class='co'>#get the count of each sentiment type for the whole document</span>
+<span class='va'>wnrc_agg</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>words_nrcsentiment</span>,<span class='va'>sentiment</span><span class='op'>)</span>
+<span class='co'>#plot this</span>
+<span class='va'>sentplot_agg</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>wnrc_agg</span>,<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>n</span>,y<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>sentiment</span>,<span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='st'>"Sentiment"</span>,x<span class='op'>=</span><span class='st'>"Number of words"</span><span class='op'>)</span>
+<span class='va'>sentplot_agg</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 5: Sentiment analysis using nrc lexicon for words in the entire document,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D."</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/sentiment%20analysis-1.png" width="624" /></p>
+</div>
+<p>Overall, the sentiment of the document is positive and of trust, although there are a fair number of negative sentiment words as well.</p>
+<p>Finally, we look at sentiment of the document by page, again using nrc lexicon.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#get the count of sentiments by page</span>
+
+<span class='va'>sents_bypage</span> <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>words_nrcsentiment</span>,<span class='va'>page</span>,<span class='va'>sentiment</span><span class='op'>)</span>
+
+<span class='co'>#make graphs for each page</span>
+<span class='va'>sentg</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'>#for every page</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>pages</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>current_page</span><span class='op'>=</span><span class='va'>pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+    
+  <span class='co'>#get the top 10 words</span>
+  <span class='va'>sents_temp</span> <span class='op'>=</span> <span class='va'>sents_bypage</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>page</span><span class='op'>==</span><span class='va'>current_page</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='co'>#only for the current page</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span> <span class='co'>#arrange by n in descending order</span>
+    
+  
+  <span class='co'>#make our graph</span>
+  <span class='va'>sent_bpgraph</span> <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>sents_temp</span>,mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>n</span>,y<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>sentiment</span>,<span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='st'>"Sentiment"</span>,x<span class='op'>=</span><span class='st'>"Number of words"</span>,title<span class='op'>=</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_c.html'>str_c</a></span><span class='op'>(</span><span class='st'>"Page "</span>,<span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>sentg</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span><span class='op'>=</span> <span class='va'>sent_bpgraph</span> <span class='co'>#double brackets appear to be needed to make it store the entire graph rather than just the data used to produce it</span>
+<span class='op'>}</span>
+
+
+<span class='co'>#display them</span>
+<span class='op'>(</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 6: Sentiment analysis by page using nrc lexicon for words in pages 1-4,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D."</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/sentiment%20analysis%20by%20page-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>6</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>]</span><span class='op'>+</span><span class='va'>sentg</span><span class='op'>[[</span><span class='fl'>8</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 7: Sentiment analysis by page using nrc lexicon for words in pages 5-8,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D."</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/sentiment%20analysis%20by%20page%202nd%20set-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+hide
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>sents_bypage</span>,<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>page</span>,<span class='va'>n</span>,group<span class='op'>=</span><span class='va'>sentiment</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color<span class='op'>=</span><span class='va'>sentiment</span><span class='op'>)</span>,size<span class='op'>=</span><span class='fl'>1.2</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='st'>"Page number"</span>,y<span class='op'>=</span><span class='st'>"Number of words"</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='co'>#we'll color similar sentiments with similar colors:</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_colour_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#0000FF"</span>,<span class='st'>"#FF0000"</span>,<span class='st'>"0077FF"</span>,<span class='st'>"#7200FF"</span>,<span class='st'>"#007727"</span>,
+                        <span class='st'>"#000499"</span>,<span class='st'>"#777777"</span>,<span class='st'>"#7200FF"</span>,<span class='st'>"#995A5A"</span>,<span class='st'>"#000000"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
+<span class='fu'><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>plot_annotation</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Figure 8: Sentiment analysis for each page using nrc lexicon,\nThoreau Society Bulletin #122. Similar colors indicate similar sentiments.\n Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D."</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="project2_files/figure-html5/sentiment%20analysis%20by%20page%20all%20on%201%20graph-1.png" width="624" /></p>
+</div>
+<p>We can see from the by-page sentiment analysis that there are fewer categorized words on pages 5-7, the pages which are primarily taken up by the membership list. This is in spite of the fact that these pages have more total words than the others (see Table 1 above). This suggests that the membership list - which one might expect to be improperly categorized by sentiment analysis, when it does not really reflect any sentiment at all - has a relatively small impact on the calculated sentiment of the document as a whole. In other words, it is mainly (or at least disproportionately) the articles in the bulletin that gives it ‘positive’ and ‘trust’ sentiments.</p>
+<p>This document was only 8 pages long, and thus I was able to easily manually check the document as I was coding this. However, this process could also be done for a longer document, and the results would clue us in on locations to manually check, saving time.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

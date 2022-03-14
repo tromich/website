@@ -1,0 +1,207 @@
+---
+title: "Textual Analysis - Thoreau Society bulletin #122"
+output:
+  distill::distill_article:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load libraries,warning=FALSE,message=FALSE}
+library(tidyverse)
+library(tidytext)
+library(textdata)
+library(pdftools)
+library(ggwordcloud)
+library(patchwork)
+library(knitr)
+```
+
+Objective: Textual analysis of Thoreau Society Bulletin #122.
+
+Data source: Thoreau Society Bulletin One Hundred Twenty-Two. 1973. The Thoreau Society. Accessed 03/12/2022 via the Internet Archive at https://archive.org/details/thoreausociety1973122unse/mode/2up
+
+This is an 8-page bulletin from the 1970s. We will analyze the bulletin for (1) word count, both total and by page and (2) sentiment, also by page and for the document as a whole.
+
+```{r load data}
+txt_2_analyze = pdf_text('thoreausociety1973122unse.pdf') #load from pdf
+txtdf = mutate(data.frame(txt_2_analyze),page=1:n()) #split by page
+txtdf = mutate(txtdf,txt=str_split(txt_2_analyze,pattern='\\n')) %>% #split by line
+  unnest(txt) #lines are all subsets of a page, fix this [for some reason doing it without the '%>%' style does not work]
+txtdf$txt = str_trim(txtdf$txt)
+
+#note that because of the format of this document (2 columns of text per page) the uploaded strings are, for the most part
+#fragments of two separate sentences - one from the left column and one from the right
+
+
+#get just the words
+txt_words = txtdf %>%
+  unnest_tokens(word,txt) %>%
+  select(-txt_2_analyze)
+
+#let's do word count as well, like in lab
+wordct = arrange(count(txt_words,txt_words$word),desc(n))
+#unsurprisingly we have a lot of "the," "a," "is," etc.
+
+```
+
+After loading the data, we get rid of relatively unimportant words such as "the," "a," "is," and so on.
+
+``` {r get rid of stop words}
+#Get rid of stop words
+txtwords_stop = anti_join(txt_words,stop_words,by='word')
+#also get word count since we'll be working with it
+wordct_bypage = count(txtwords_stop,txtwords_stop$page,txtwords_stop$word) #by page
+colnames(wordct_bypage)=c("page","word","n")
+wordct_total = count(txtwords_stop,txtwords_stop$word) #overall
+colnames(wordct_total)=c("word","n")
+```
+
+Because of the nature of this document, we are actually left with a fair number of 'strange' words, which we'll see in a moment. However, as we will also see, it's not necessarily a bad thing that these unusual words were left in, because they are informative.
+
+After loading the data and working it into a manageable form, our first objective is to determine the most frequently used words in the entire document. This excludes "stop words" (such as "the" or "is") that are not particularly informative about the document's contents. We'll display this information using both bar charts for the top 10 words and a word cloud for the top 100.
+
+```{r visualize word counts - whole document}
+#now that we've gotten rid of pesky stop words, visualize the word count for words that matter
+
+#let's start with the whole document
+
+#get the total number of words:
+totalwords = sum(wordct_total$n)
+
+#get the top 10 words
+top10words = wordct_total%>%
+  arrange(-n)%>% #arrange by n in descending order
+  slice(1:10)#grab just the first 10 rows
+
+#plot this
+top10_aggregate = ggplot(data=top10words,mapping=aes(x=n,y=reorder(word,n)))+geom_col()+theme_minimal()+labs(y="Word",x="Number of uses")
+top10_aggregate+plot_annotation(caption=str_c("Figure 1: Usage frequency for the 10 most commonly used words in the entire document (",as.character(totalwords)," words in total),\nThoreau Society Bulletin #122. Data (c) 1973, The Thoreau Society."))
+
+```
+
+
+```{r visualize whole document word cloud}
+#now let's make a word cloud for the whole document
+top100words_aggregate = slice(arrange(wordct_total,-n),1:100)
+wordcloud_aggregate = ggplot(top100words_aggregate,aes(label=word))+geom_text_wordcloud(aes(color=n,size=n),shape="circle")+scale_size_area(max_size=12)+theme_minimal()+scale_color_gradientn(colors=c("#D8D8D8","#000000")) #make the words become more visible the more common they are, but lowest visibility should still be dark enough to read
+wordcloud_aggregate+plot_annotation(caption=str_c("Figure 2: Word cloud for the most commonly used words in the entire document (",as.character(totalwords)," words in total),\nThoreau Society Bulletin #122. Larger and darker text indicates more commonly used words.\nData (c) 1973, The Thoreau Society."))
+```
+
+
+
+Unsurprisingly, "thoreau" is the most commonly used word in the entire document, and "walden" (a famous place in Thoreau's life) is also extremely common. However we also see some odd words appearing quite frequently. I had to look in the PDF myself to figure out what "st" and "coll" meant; apparently they are abbreviations for "state college" and are used extensively in the membership list, since it is by state. "univ" likewise occurs often in this section. We should see this reflected in a difference in usage count by page, which is presented below.
+
+```{r word count by page,warning=FALSE}
+#easily get a data frame with just the pages by using count
+pages = count(wordct_bypage,page)
+
+
+#get total words on each page
+tw_bypage = summarise(group_by(wordct_bypage,page),totalwords=sum(n))
+colnames(tw_bypage)=c("Page #", "Total Words")
+kable(tw_bypage,caption="Table 1: Word count by page")
+```
+
+As can be seen in the table above, the total word count per page increases noticeably on pages 4-7, before declining again on page 8. This will be relevant later.
+
+
+
+```{r word count by page continued, warning=FALSE}
+top10s = list()
+t10g = list()
+#for every page
+for (i in 1:dim(pages)[1]){
+  current_page=pages$page[i]
+  
+  #get the top 10 words
+  top10_bypage = wordct_bypage%>%
+    filter(page==current_page)%>% #only for the current page
+    arrange(-n)%>% #arrange by n in descending order
+    slice(1:10)#grab just the first 10 rows
+  
+  top10s[i]=top10_bypage #store it
+  
+  #make our graph
+  top10_bpgraph = ggplot(data=top10_bypage,mapping=aes(x=n,y=reorder(word,n)))+geom_col()+theme_minimal()+labs(y="Word",x="Number of uses",title=str_c("Page ",as.character(i)))
+  t10g[[i]]= top10_bpgraph #double brackets appear to be needed to make it store the entire graph rather than just the data used to produce it
+}
+
+(t10g[[1]]+t10g[[2]])/(t10g[[3]]+t10g[[4]])+plot_annotation(caption="Figure 3: Top 10 words by page, for pages 1-4 in the document, Thoreau Society Bulletin #122.\nData (c) 1973, The Thoreau Society. ")
+```
+
+
+```{r second set of plots}
+
+(t10g[[5]]+t10g[[6]])/(t10g[[7]]+t10g[[8]])+plot_annotation(caption="Figure 4: Top 10 words by page, for pages 5-8 in the document, Thoreau Society Bulletin #122.\nData (c) 1973, The Thoreau Society.")
+```
+
+From examining these two sets of plots, we can see the document's shift in focus to the membership list occurs on pages 4-7, where "st," "coll," and "univ" become relatively common at the expense of "thoreau" and "walden."
+
+Next, we perform sentiment analysis on the entire document. For this we use the nrc lexicon.
+Mohammad, Saif M. and Turney, Peter D. (2013), Crowdsourcing a Word-Emotion Association Lexicon. Computational Intelligence, 29(3): 436-465. doi: 10.1111/j.1467-8640.2012.00460.x
+
+```{r sentiment analysis,message=FALSE}
+#attach the sentiment values for each word
+words_nrcsentiment = inner_join(txtwords_stop,get_sentiments("nrc"))
+#from viewing this after running it, I immediately notice an issue with the sentiment analysis: the word "vice" has 'negative' sentiment, even though in this document it is a component of the two-word title "vice president." It only appears once so it shouldn't impact the results much
+
+#get the count of each sentiment type for the whole document
+wnrc_agg = count(words_nrcsentiment,sentiment)
+#plot this
+sentplot_agg = ggplot(wnrc_agg,aes(x=n,y=reorder(sentiment,n)))+geom_col()+theme_minimal()+labs(y="Sentiment",x="Number of words")
+sentplot_agg+plot_annotation(caption="Figure 5: Sentiment analysis using nrc lexicon for words in the entire document,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D.")
+
+
+```
+
+Overall, the sentiment of the document is positive and of trust, although there are a fair number of negative sentiment words as well.
+
+Finally, we look at sentiment of the document by page, again using nrc lexicon.
+
+``` {r sentiment analysis by page}
+#get the count of sentiments by page
+
+sents_bypage = count(words_nrcsentiment,page,sentiment)
+
+#make graphs for each page
+sentg = list()
+#for every page
+for (i in 1:dim(pages)[1]){
+  current_page=pages$page[i]
+    
+  #get the top 10 words
+  sents_temp = sents_bypage%>%
+    filter(page==current_page)%>% #only for the current page
+    arrange(-n) #arrange by n in descending order
+    
+  
+  #make our graph
+  sent_bpgraph = ggplot(data=sents_temp,mapping=aes(x=n,y=reorder(sentiment,n)))+geom_col()+theme_minimal()+labs(y="Sentiment",x="Number of words",title=str_c("Page ",as.character(i)))
+  sentg[[i]]= sent_bpgraph #double brackets appear to be needed to make it store the entire graph rather than just the data used to produce it
+}
+
+
+#display them
+(sentg[[1]]+sentg[[2]])/(sentg[[3]]+sentg[[4]])+plot_annotation(caption="Figure 6: Sentiment analysis by page using nrc lexicon for words in pages 1-4,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D.")
+  
+```
+
+``` {r sentiment analysis by page 2nd set}
+(sentg[[5]]+sentg[[6]])/(sentg[[7]]+sentg[[8]])+plot_annotation(caption="Figure 7: Sentiment analysis by page using nrc lexicon for words in pages 5-8,\nThoreau Society Bulletin #122. Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D.")
+```
+
+```{r sentiment analysis by page all on 1 graph}
+ggplot(sents_bypage,aes(page,n,group=sentiment))+geom_line(aes(color=sentiment),size=1.2)+
+  theme_minimal()+labs(x="Page number",y="Number of words")+
+  #we'll color similar sentiments with similar colors:
+  scale_colour_manual(values = c("#0000FF","#FF0000","0077FF","#7200FF","#007727",
+                        "#000499","#777777","#7200FF","#995A5A","#000000"))+
+plot_annotation(caption="Figure 8: Sentiment analysis for each page using nrc lexicon,\nThoreau Society Bulletin #122. Similar colors indicate similar sentiments.\n Text (c) 1973, The Thoreau Society.\nnrc lexicon (c) 2013 Mohammad, Saif M. and Turney, Peter D.")
+```
+
+We can see from the by-page sentiment analysis that there are fewer categorized words on pages 5-7, the pages which are primarily taken up by the membership list. This is in spite of the fact that these pages have more total words than the others (see Table 1 above). This suggests that the membership list - which one might expect to be improperly categorized by sentiment analysis, when it does not really reflect any sentiment at all - has a relatively small impact on the calculated sentiment of the document as a whole. In other words, it is mainly (or at least disproportionately) the articles in the bulletin that gives it 'positive' and 'trust' sentiments.
+
+This document was only 8 pages long, and thus I was able to easily manually check the document as I was coding this. However, this process could also be done for a longer document, and the results would clue us in on locations to manually check, saving time.

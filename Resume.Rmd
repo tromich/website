@@ -2,13 +2,23 @@
 title: "My resume"
 ---
 
-<a href = "TrevorRomichResume3_13_2022.pdf" target = "_blank">Click this link to download a copy of my resume</a>
+<a href = "TrevorRomichResume3_13_2022.pdf" target = "_blank">Click this link to download a copy of my detailed resume</a>
 
-<h2>Resume highlights:</h2>
 <hr></hr>
+
 <h3>Current Position</h3>
 <h4>University of California, Santa Barbara, 2017-Present</h4>
 <p>I am a graduate student in the Geography Department. I completed my Masters degree in March 2020, and produced the thesis “Photodegradation stimulates microbial activity through enhanced water solubility of grass litter carbon.” Currently I am in the process of developing a Ph.D. project to investigate the impact of changes in moisture availability on drought-induced conifer needle shedding. Additionally, I work as a Teacher's Assistant during the normal academic year.</p>
 <hr></hr>
-<h5>Past work experience</h5>
-
+<h3>Recent prior experience</h3>
+<h4>University of California, Davis - McLaughlin Reserve, Summer Intern April - August 2016</h4>
+<p>Worked as part of a team to carry out reserve management tasks, including invasive plant control via hand pulling and herbicide application, planting and watering trees, and collecting GIS data for important preserve locations.</p>
+<br></br>
+<h4>The Nature Conservancy Massachusetts, Intern May - October 2015</h4>
+<p>Developed a draft habitat management plan for a wetland preserve based on data, field observations, and management priorities.</p>
+<p>Assisted with field and related office work, including invasive plant control and GIS data collection, uploading, and processing using ArcMap.</p>
+<br></br>
+<h4>Byggmeister, Inc., Intern March - September 2014 & February-March 2015</h4>
+<p>Completed a research project to calculate embodied energy for two of the company's residential building retrofitting projects.</p>
+<p>Presented the results of this research at the Northeast Sustainable Energy Association’s BuildingEnergy 15 event as part of a panel consisting of several green building professionals.</p>
+<br></br>

@@ -7,11 +7,11 @@ output:
 .a{ display : flex}
 ```
 
-<h1>I have worked with several different programming languages as part of research and coursework. The links below provide several recent examples of my data analysis projects.</h1>
+<h3 align="center">I have worked with several different programming languages as part of research and coursework. The links below provide several recent examples of my data analysis projects.</h3>
 
-<div class="a" align="center">
-<a href = "project1.html">Oxygen Saturation Model Selection</a> <p>&nbsp;</p> <a href = "project2.html">Textual analysis - Thoreau Society bulletin</a>
-</div>
-
-<div class = "a" align="center"><a href = "project3.html">Nonlinear Models: Lizard Traits</a> <p>&nbsp;</p> <a href = "project4.html">Visualization of Fish Ladder Observation Data</a>
-</div>
+<ul>
+<li><a href = "project1.html">Oxygen Saturation Model Selection</a></li>
+<li><a href = "project2.html">Textual analysis - Thoreau Society bulletin</a></li>
+<li><a href = "project3.html">Nonlinear Models: Lizard Traits</a></li>
+<li><a href = "project4.html">Visualization of Fish Ladder Observation Data</a></li>
+</ul>
